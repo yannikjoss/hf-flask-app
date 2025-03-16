@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Startseite</h1>
+    {% if posts.items %}
+    {% for post in posts.items %}
+    <div class="panel panel-default post-panel">  
+        <div class="panel-heading post-header"> 
+            <h3 class="panel-title post-author-name"> 
+                Benutzer: <a href="{{ url_for('routes.user_profile', username=post.author.username) }}">{{ post.author.username }}</a> sagt:
+            </h3>
+        </div>
+        <div class="panel-body post-body-content"> 
+            <p>{{ post.body }}</p>
+            <small class="post-timestamp">({{ post.timestamp|format_datetime() }})</small> 
+            <div><a href="{{ url_for('routes.post_detail', post_id=post.id) }}">Kommentieren</a> | <a href="{{ url_for('routes.post_detail', post_id=post.id) }}">Details</a></div>
+        </div>
+    </div> 
+    {% endfor %}
+    <div class="pagination">
+        {% if posts.has_prev %}
+        <a href="{{ url_for('routes.index', page=posts.prev_num) }}">Neuere Posts</a>
+        {% endif %}
+        {% if posts.has_next %}
+        <a href="{{ url_for('routes.index', page=posts.next_num) }}">Ältere Posts</a>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>Noch keine Posts von Personen, denen Sie folgen.</p>
+    {% endif %}
+{% endblock %}

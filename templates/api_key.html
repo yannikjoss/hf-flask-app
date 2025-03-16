@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Ihr API Key</h1>
+    <p>Hier ist Ihr persönlicher API Key. Behandeln Sie ihn wie ein Passwort und geben Sie ihn nicht weiter!</p>
+    <textarea rows="1" cols="60" readonly onclick="this.select();">{{ api_key }}</textarea>
+    <p>Sie können diesen Key verwenden, um auf die API-Endpunkte zuzugreifen, indem Sie ihn im <code>X-API-Key</code> Header Ihrer Requests mitsenden.</p>
+    <p>Beispiel mit curl:</p>
+    <pre><code>curl -H "X-API-Key: {{ api_key }}" http://localhost:5000/api/posts</code></pre>
+{% endblock %}

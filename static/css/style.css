@@ -1,0 +1,194 @@
+/* style.css - Vollständige CSS Datei mit allen Designanpassungen */
+
+body {
+    font-family: 'Arial', sans-serif; /* Standard-Font auf Arial geändert */
+    margin: 20px;
+    background-color: #f4f4f4; /* Hintergrundfarbe hellgrau */
+    color: #333;              /* Standard-Textfarbe dunkelgrau */
+}
+
+h1, h2, h3 {
+    color: #555; /* Überschriften Farbe etwas heller */
+}
+
+a {
+    color: #007BFF; /* Linkfarbe blau */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline; /* Unterstreichung bei Hover */
+}
+
+hr {
+    border-top: 1px solid #eee; /* Horizontale Linie etwas feiner */
+}
+
+/* --------------- Globale Bootstrap Anpassungen (falls nötig) --------------- */
+
+/* Beispiel: Standard Bootstrap Button Farbe ändern */
+.btn-primary {
+    background-color: #007BFF;
+    border-color: #0056b3;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #0056b3 !important;
+    border-color: #003366 !important;
+}
+
+
+/* --------------- Kommentar-Styling --------------- */
+
+.comment-timestamp {
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 0.5em;
+    font-style: italic;
+}
+
+ul.comments-list {
+    list-style: none;        /* Aufzählungszeichen entfernen */
+    padding-left: 0;         /* Standard Padding links entfernen */
+}
+
+li.comment {
+    margin-bottom: 15px;      /* Abstand zwischen Kommentaren */
+    padding: 10px;
+    border: 1px solid #eee;   /* Rahmen um Kommentare */
+    border-radius: 5px;       /* Abgerundete Ecken */
+    background-color: #fff;    /* Weißer Kommentar-Hintergrund */
+    box-shadow: 1px 1px 3px #f0f0f0; /* Dezenter Schatten für Kommentare */
+}
+
+.comment-header {
+    margin-bottom: 8px;      /* Abstand zwischen Kommentar-Header und -Body */
+    font-weight: bold;      /* Kommentar-Header (Autor-Name) fett */
+    color: #555;           /* Farbe Kommentar-Header etwas dunkler */
+    font-size: 0.95em;
+}
+
+.comment-body {
+    color: #444;           /* Kommentar-Textfarbe etwas dunkler als Standard */
+    line-height: 1.3em;    /* Zeilenabstand für bessere Lesbarkeit */
+}
+
+
+/* --------------- Styling für Startseiten-Posts --------------- */
+
+.post-panel {
+    margin-bottom: 15px; /* Abstand zwischen den Panels/Posts */
+    border-color: #d0eff7;  /* Rahmenfarbe (hellblau) */
+    box-shadow: 2px 2px 5px #eee; /* dezenter Schatten */
+}
+
+.post-header {
+    background-color: #f7d0dd; /* Header-Hintergrundfarbe (hellrosa) */
+    color: #333;           /* Header-Textfarbe (dunkelgrau) */
+    padding: 10px 15px;
+    border-bottom: 1px solid #d0eff7; /* Rahmenlinie unterhalb des Headers */
+}
+
+.post-author-name {
+    font-size: 1.2em;     /* Benutzername etwas größer */
+    font-weight: bold;     /* Benutzername fett */
+    margin: 0;            /* Überschriften-Margins aufheben */
+}
+
+.post-body-content {
+    padding: 15px;
+    background-color: #faf9d9; /* Body-Hintergrundfarbe (hellgelb) */
+}
+
+.post-body-content p { /* Style für <p> innerhalb post-body-content (Post-Text) */
+    margin-bottom: 10px;
+    line-height: 1.4em; /* Zeilenabstand etwas erhöhen für bessere Lesbarkeit */
+}
+
+.post-body-content small.post-timestamp { /* Zeitstempel im Post-Body */
+    display: block;      /* Zeitstempel unterhalb des Textes anzeigen */
+    text-align: right;    /* rechtsbündig */
+    margin-top: 10px;
+    font-style: normal;  /* nicht mehr kursiv, da separater Bereich */
+    color: #999;        /* noch hellere graue Farbe für Zeitstempel im Post-Body */
+    font-size: 0.9em;
+}
+
+
+/* --------------- Styling für Post-Detailseite --------------- */
+.post-detail-container {
+    background-color: #fff;   /* weißer Hintergrund für Detailseite Container */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* dezenter Schatten */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.post-detail-header {
+    border-bottom: 2px solid #f7d0dd; /* Linie unter dem Header */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.post-detail-title {
+    color: #555;         /* dunklergrauer Titel */
+    font-size: 2.0em;     /* etwas kleinere Überschrift */
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.post-detail-author, .post-detail-date {
+    color: #777;        /* hellgrauer Autor/Datum Text */
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.post-detail-date small { /* Speziell <small> innerhalb post-detail-date */
+    font-style: italic;  /* kursiv */
+}
+
+.post-detail-content p.post-body { /* Post Text auf Detailseite */
+    font-size: 1.1em;
+    line-height: 1.6em;
+    margin-bottom: 20px;
+}
+
+.comments-section-title {
+    color: #555;        /* dunklergraue Kommentar-Überschrift */
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Linie unter Kommentar-Überschrift */
+    padding-bottom: 5px;
+}
+
+ul.comments-list { /* UL für Kommentarliste (auf Detailseite) */
+    list-style: none;      /* Keine Aufzählungszeichen */
+    padding-left: 0;       /* Kein Padding links */
+}
+
+
+/* --------------- Weitere allgemeine Stile (optional) --------------- */
+
+/* Beispiel: Pagination Links */
+.pagination a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #eee;
+}
+
+.pagination .disabled { /* Style für deaktivierte Pagination Links (z.B. "Previous" auf erster Seite) */
+    color: #999;
+    border-color: #eee;
+    pointer-events: none; /* Deaktiviert Klicks auf deaktivierte Links */
+    cursor: default;
+}

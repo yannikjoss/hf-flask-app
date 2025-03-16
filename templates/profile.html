@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Benutzerprofil: {{ user.username }}</h1>
+    {% if user.profile_bio %}
+    <p>Profilbeschreibung: {{ user.profile_bio }}</p>
+    {% endif %}
+    {% if user != current_user %}
+    <div>
+        {% if not current_user.is_following(user) %}
+        <a href="{{ url_for('routes.follow', username=user.username) }}">Folgen</a>
+        {% else %}
+        <a href="{{ url_for('routes.unfollow', username=user.username) }}">Entfolgen</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    <hr>
+    <h2>Posts von {{ user.username }}</h2>
+    {% if posts.items %}
+    {% for post in posts.items %}
+    <div class="post">
+        <p>{{ post.body }}</p>
+        <small>({{ post.timestamp }})</small>
+        <div><a href="{{ url_for('routes.post_detail', post_id=post.id) }}">Kommentieren</a> | <a href="{{ url_for('routes.post_detail', post_id=post.id) }}">Details</a></div>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+        {% if posts.has_prev %}
+        <a href="{{ url_for('routes.user_profile', username=user.username, page=posts.prev_num) }}">Neuere Posts</a>
+        {% endif %}
+        {% if posts.has_next %}
+        <a href="{{ url_for('routes.user_profile', username=user.username, page=posts.next_num) }}">Ältere Posts</a>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>{{ user.username }} hat noch keine Posts verfasst.</p>
+    {% endif %}
+{% endblock %}

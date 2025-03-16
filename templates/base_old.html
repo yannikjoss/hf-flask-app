@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Micro Twitter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div>
+        Micro Twitter:
+        <a href="{{ url_for('routes.index') }}">Startseite</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('routes.login') }}">Anmelden</a>
+        <a href="{{ url_for('routes.register') }}">Registrieren</a>
+        {% else %}
+        <a href="{{ url_for('routes.user_profile', username=current_user.username) }}">Profil</a>
+        <a href="{{ url_for('routes.edit_profile') }}">Profil bearbeiten</a>
+        <a href="{{ url_for('routes.new_post') }}">Neuer Post</a>
+        <a href="{{ url_for('routes.users_list') }}">Benutzer finden</a>
+        <a href="{{ url_for('routes.get_api_key') }}">API Key</a>
+        <a href="{{ url_for('routes.logout') }}">Abmelden</a>
+        {% endif %}
+    </div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>

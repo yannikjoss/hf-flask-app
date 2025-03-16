@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Katzen Forum</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> 
+</head>
+<body>
+    <div class="container"> 
+        <nav class="navbar navbar-default"> 
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Navigation umschalten</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('routes.index') }}">Katzen Forum</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ url_for('routes.index') }}">Startseite</a></li>
+                        {% if current_user.is_anonymous %}
+                        <li><a href="{{ url_for('routes.login') }}">Anmelden</a></li>
+                        <li><a href="{{ url_for('routes.register') }}">Registrieren</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('routes.users_list') }}">Benutzer finden</a></li>
+                        <li><a href="{{ url_for('routes.new_post') }}">Neuer Post</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('routes.user_profile', username=current_user.username) }}">Profil</a></li>
+                        <li><a href="{{ url_for('routes.edit_profile') }}">Profil bearbeiten</a></li>
+                        <li><a href="{{ url_for('routes.get_api_key') }}">API Key</a></li>
+                        <li><a href="{{ url_for('routes.logout') }}">Abmelden</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for category, message in messages|groupby(attribute='category') %}
+            <div class="alert alert-{{ category }}"> 
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+        <hr>
+        <footer>
+            <p>© Katzen Forum 2025</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script> 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+</body>
+</html>

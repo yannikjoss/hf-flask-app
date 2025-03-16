@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<div class="post-detail-container"> 
+    <div class="post-detail-header"> 
+        <h2 class="post-detail-title">Post Details</h2> 
+        <p class="post-detail-author">Benutzer: <a href="{{ url_for('routes.user_profile', username=post.author.username) }}">{{ post.author.username }}</a></p> 
+        <p class="post-detail-date"><small>({{ post.timestamp|format_datetime() }})</small></p> 
+    </div>
+
+    <div class="post-detail-content"> 
+        <p class="post-body">{{ post.body }}</p>
+        <hr>
+
+        <h3 class="comments-section-title">Kommentare</h3> 
+        {% if comments %}
+        <ul class="comments-list"> 
+            {% for comment in comments %}
+            <li class="comment"> 
+                <div class="comment-header">
+                    <a href="{{ url_for('routes.user_profile', username=comment.author.username) }}">{{ comment.author.username }}</a>
+                    <small class="comment-timestamp">({{ comment.timestamp|format_datetime() }})</small>
+                </div>
+                <div class="comment-body">
+                    {{ comment.body }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Noch keine Kommentare.</p>
+        {% endif %}
+        <hr>
+
+        {% if current_user.is_authenticated %}
+        <h3>Neuen Kommentar verfassen</h3>
+        {{ wtf.quick_form(form) }}
+        {% else %}
+        <p>Sie müssen <a href="{{ url_for('routes.login') }}">angemeldet</a> sein, um kommentieren zu können.</p>
+        {% endif %}
+    </div>
+</div> 
+{% endblock %}
