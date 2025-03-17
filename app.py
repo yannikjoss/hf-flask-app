@@ -12,10 +12,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key_for_local_testing')
 
 # Datenbankkonfiguration für Heroku Postgres ODER lokale SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://') or 'sqlite:///app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL') or 'sqlite:///app.db').replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#url check? ggf falsch?
+#url check? ggf falsch? => fix mit replace
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
