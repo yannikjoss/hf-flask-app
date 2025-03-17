@@ -44,4 +44,4 @@ Werkzeug==2.0.1
 WTForms==2.3.3
 Flask-Bootstrap==3.3.7.1
 Gunicorn
-psycopg2-binary==2.9.6
+psycopg2-binary==2.9.9
