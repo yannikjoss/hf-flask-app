@@ -32,9 +32,11 @@ def login():
             return redirect(url_for('routes.login'))
         login_user(user, remember=True)
         next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('routes.index')
-        return redirect(next_page)
+        # request.host_url to check if next_page is a relative URL => fix für relogin bug
+        if next_page and next_page.startswith(('http://', 'https://')):
+            return redirect(next_page)
+        else:
+            return redirect(url_for('routes.index'))
     return render_template('login.html', title='Anmelden')
 
 
