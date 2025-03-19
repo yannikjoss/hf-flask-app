@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Termine</h1>
+    <ul>
+        {% for appointment in appointments %}
+            <li>
+                <strong>{{ appointment.name }}</strong> - {{ appointment.date.strftime('%d.%m.%Y %H:%M') }}
+                <br>
+                Ort: {{ appointment.location }}
+                <br>
+                Beschreibung: {{ appointment.description }}
+                <br>
+                Erstellt von: <a href="{{ url_for('routes.user_profile', username=appointment.creator.username) }}">{{ appointment.creator.username }}</a>
+                <br>
+                Teilnehmer:
+                {% for user in appointment.participants %}
+                    <a href="{{ url_for('routes.user_profile', username=user.username) }}">{{ user.username }}</a>{% if not loop.last %}, {% endif %}
+                {% else %}
+                    Keine Teilnehmer bisher.
+                {% endfor %}
+                <br>
+                {% if appointment.creator == current_user %}
+                    <a href="{{ url_for('routes.delete_appointment', appointment_id=appointment.id) }}">Löschen</a>
+                {% endif %}
+
+                {% if current_user in appointment.participants %}
+                    <a href="{{ url_for('routes.leave_appointment', appointment_id=appointment.id) }}">Austragen</a>
+                {% else %}
+                    <a href="{{ url_for('routes.participate_appointment', appointment_id=appointment.id) }}">Teilnehmen</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('routes.new_appointment') }}">Neuen Termin erstellen</a>
+{% endblock %}

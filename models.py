@@ -9,6 +9,11 @@ followers = db.Table('followers',
     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+appointment_participants = db.Table('appointment_participants',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('appointment_id', db.Integer, db.ForeignKey('appointment.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -73,3 +78,17 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post {self.body[:50]}...>'
+
+
+class Appointment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    creator = db.relationship('User', backref=db.backref('created_appointments', lazy=True))
+    participants = db.relationship('User', secondary='appointment_participants', backref=db.backref('participating_appointments', lazy=True))
+
+    def __repr__(self):
+        return f'<Appointment {self.name}>'

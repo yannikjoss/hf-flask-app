@@ -24,6 +24,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url_for('routes.index') }}">Startseite</a></li>
+                        <li><a href="{{ url_for('routes.appointments') }}">Termine</a></li>
                         {% if current_user.is_anonymous %}
                         <li><a href="{{ url_for('routes.login') }}">Anmelden</a></li>
                         <li><a href="{{ url_for('routes.register') }}">Registrieren</a></li>
@@ -44,10 +45,10 @@
             </div>
         </nav>
 
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <ul class="flashes">
-            {% for category, message in messages|groupby(attribute='category') %}
+            {% for category, message in messages %}
             <div class="alert alert-{{ category }}"> 
                 {% for message in messages %}
                 <li>{{ message }}</li>

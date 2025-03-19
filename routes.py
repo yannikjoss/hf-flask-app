@@ -2,11 +2,11 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from flask_login import login_user, current_user, logout_user, login_required
 #from urllib.parse import url_parse, urlunparse # wird nicht genutzt
 from app import db
-from models import User, Post, Comment
+from models import User, Post, Comment, Appointment, appointment_participants
 from datetime import datetime
 import secrets
 from functools import wraps
-from forms import CommentForm
+from forms import CommentForm, AppointmentForm
 
 routes_blueprint = Blueprint('routes', __name__)
 
@@ -155,7 +155,68 @@ def users_list():
     return render_template('users.html', title='Benutzer finden', users=users)
 
 
-# API Key Funktionalität und Endpunkte (unverändert)
+@routes_blueprint.route('/appointments')
+@login_required
+def appointments():
+    appointments = Appointment.query.order_by(Appointment.date).all()
+    return render_template('appointments.html', appointments=appointments)
+
+@routes_blueprint.route('/appointments/new', methods=['GET', 'POST'])
+@login_required
+def new_appointment():
+    form = AppointmentForm()
+    if form.validate_on_submit():
+        appointment = Appointment(
+            name=form.name.data,
+            date=form.date.data, #datetime object direkt nutzen
+            location=form.location.data,
+            description=form.description.data,
+            creator=current_user
+        )
+        db.session.add(appointment)
+        db.session.commit()
+        flash('Termin erstellt!', 'success')
+        return redirect(url_for('routes.appointments'))
+    return render_template('new_appointment.html', form=form, title='Neuer Termin')
+
+@routes_blueprint.route('/appointments/delete/<int:appointment_id>')
+@login_required
+def delete_appointment(appointment_id):
+    appointment = Appointment.query.get_or_404(appointment_id)
+    if appointment.creator != current_user:
+        flash('Sie sind nicht berechtigt, diesen Termin zu löschen.', 'danger')
+        return redirect(url_for('routes.appointments'))
+    db.session.delete(appointment)
+    db.session.commit()
+    flash('Termin gelöscht!', 'success')
+    return redirect(url_for('routes.appointments'))
+
+@routes_blueprint.route('/appointments/participate/<int:appointment_id>')
+@login_required
+def participate_appointment(appointment_id):
+    appointment = Appointment.query.get_or_404(appointment_id)
+    if current_user in appointment.participants:
+          flash('Sie nehmen bereits an diesem Termin teil.', 'info')
+    else:
+        appointment.participants.append(current_user)
+        db.session.commit()
+        flash('Sie nehmen nun an diesem Termin teil!', 'success')
+    return redirect(url_for('routes.appointments'))
+
+@routes_blueprint.route('/appointments/leave/<int:appointment_id>')
+@login_required
+def leave_appointment(appointment_id):
+    appointment = Appointment.query.get_or_404(appointment_id)
+    if current_user in appointment.participants:
+        appointment.participants.remove(current_user)
+        db.session.commit()
+        flash('Sie nehmen nicht mehr an diesem Termin teil.', 'info')
+    else:
+        flash('Sie nehmen an diesem Termin nicht teil.', 'warning')
+    return redirect(url_for('routes.appointments'))
+
+
+# API Key Funktionalität und Endpunkte 
 def generate_api_key():
     return secrets.token_hex(32)
 
